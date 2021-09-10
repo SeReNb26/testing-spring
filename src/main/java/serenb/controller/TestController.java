@@ -33,6 +33,15 @@ public class TestController {
         return new UserResponseDto(name, age);
     }
 
+    @GetMapping("json-array")
+    @ResponseBody
+    public UserResponseDto[] testWithJSONArray() {
+        return new UserResponseDto[]{
+                new UserResponseDto("Benito", 19),
+                new UserResponseDto("Bob", 22)
+        };
+    }
+
     @PostMapping
     @ResponseBody
     public FormResponseDto getFormResponse(HttpServletRequest req) {
