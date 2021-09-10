@@ -1,6 +1,5 @@
 package serenb.dto.response;
 
-
 public class UserResponseDto {
     private String name;
     private Integer age;
