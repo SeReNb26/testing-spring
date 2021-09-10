@@ -1,12 +1,17 @@
 package serenb.controller;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +28,8 @@ public class TestController {
 
     @GetMapping("/no-json")
     @ResponseBody
-    public String testWithoutJSON(@RequestParam String name, @RequestParam int age) {
+    public String testWithoutJSON(@RequestParam String name,
+                                  @RequestParam int age) {
         return String.format("My name is %s, \nI am %2d.", name, age);
     }
 
@@ -42,6 +48,15 @@ public class TestController {
         };
     }
 
+    @GetMapping("/jsp")
+    public String testJSP(Model model) {
+        List<UserResponseDto> list = new ArrayList<>();
+        list.add(new UserResponseDto("Denis", 22));
+        list.add(new UserResponseDto("Jackson", 28));
+        model.addAttribute("users", list);
+        return "test";
+    }
+
     @PostMapping
     @ResponseBody
     public FormResponseDto getFormResponse(HttpServletRequest req) {
@@ -55,7 +70,7 @@ public class TestController {
     @GetMapping("/to-json")
     @ResponseBody
     public UserResponseDto setDataToDb() {
-        String stringUrl = "http://localhost:8080/json?name=Benito&age=19";
+        String stringUrl = "https://spring-testing26.herokuapp.com/json?name=Benito&age=19";
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(stringUrl)).build();
         String stringLikeJSON = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
