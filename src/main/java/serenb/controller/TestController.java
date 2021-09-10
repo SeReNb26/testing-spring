@@ -55,7 +55,7 @@ public class TestController {
     @GetMapping("/to-json")
     @ResponseBody
     public UserResponseDto setDataToDb() {
-        String stringUrl = "http://localhost:8080/json?name=Benito&age=19";
+        String stringUrl = "https://spring-testing26.herokuapp.com/json?name=Benito&age=19";
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(stringUrl)).build();
         String stringLikeJSON = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
